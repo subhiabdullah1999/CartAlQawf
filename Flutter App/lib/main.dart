@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
               ? Locale(storage.languageCode!, storage.countryCode)
               : const Locale('ar', 'LB'),
           translations: AppTranslations(),
-          fallbackLocale: const Locale('ar', 'LB'),
+          fallbackLocale: const Locale('en', 'US'),
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,

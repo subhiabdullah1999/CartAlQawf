@@ -2177,6 +2177,65 @@ class HomeScreenContent extends StatelessWidget {
     );
   }
 
+  // Widget bestSellingProduct(bestSellingProductIndex, context) {
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Padding(
+  //             padding: EdgeInsets.symmetric(horizontal: 15.w),
+  //             child: Text(
+  //               AppTags.bestSellingProducts.tr,
+  //               style: isMobile(context)
+  //                   ? AppThemeData.headerTextStyle
+  //                   : AppThemeData.headerTextStyleTab,
+  //             ),
+  //           ),
+  //           InkWell(
+  //             onTap: () {
+  //               Get.to(() => const BestSellingProductsView());
+  //             },
+  //             child: Padding(
+  //               padding: EdgeInsets.all(15.r),
+  //               child: SvgPicture.asset(
+  //                 Images.more,
+  //                 height: 4.h,
+  //                 width: 18.w,
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       SizedBox(height: 4.h),
+  //       SizedBox(
+  //         height: 255.h,
+  //         child: ListView.builder(
+  //           padding: EdgeInsets.only(right: 15.w),
+  //           itemCount: homeScreenContentController.homeDataModel.value
+  //               .data![bestSellingProductIndex].bestSellingProducts!.length,
+  //           scrollDirection: Axis.horizontal,
+  //           physics: const BouncingScrollPhysics(),
+  //           itemBuilder: (context, index) {
+  //             return Padding(
+  //               padding: EdgeInsets.only(left: 15.w),
+  //               child: Column(
+  //                 children: [
+  //                   HomeProductCard(
+  //                     dataModel: homeScreenContentController.homeDataModel.value
+  //                         .data![bestSellingProductIndex].bestSellingProducts,
+  //                     index: index,
+  //                   ),
+  //                 ],
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
   //Video Shopping
   Widget videoShopping(videoShoppingIndex, context) {
     return Column(

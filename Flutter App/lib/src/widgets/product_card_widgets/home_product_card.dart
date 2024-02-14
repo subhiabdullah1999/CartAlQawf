@@ -29,16 +29,17 @@ class HomeProductCard extends StatelessWidget {
   final dynamic dataModel;
   final int index;
   final _cartController = Get.find<CartContentController>();
-  final homeScreenController = Get.put(DashboardController());
-  final _favouriteController = Get.find<FavouriteController>();
-  final detailsController = Get.put(DetailsPageController());
-  final homeScreenContentController = Get.find<HomeScreenController>();
+  // final homeScreenController = Get.put(DashboardController());
+  // final _favouriteController = Get.find<FavouriteController>();
+  // final detailsController = Get.put(DetailsPageController());
+  // final homeScreenContentController = Get.find<HomeScreenController>();
 
-  final cartContentController = Get.find<CartContentController>();
+  // final cartContentController = Get.find<CartContentController>();
 
   @override
   Widget build(BuildContext context) {
-    final productId = Get.parameters['productId'];
+    // final productId = Get.parameters['productId'];
+    final homeScreenContentController = Get.find<HomeScreenController>();
 
     return InkWell(
       onTap: () {
@@ -394,68 +395,70 @@ class HomeProductCard extends StatelessWidget {
               //                 )),
               //           )
               //     : const SizedBox(),
-              Positioned(
-                top: 0,
-                left: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(5.0.r),
-                  child: Obx(
-                    () => Material(
-                      shape: const CircleBorder(),
-                      child: InkWell(
-                        customBorder: const CircleBorder(),
-                        onTap: () async {
-                          if (_favouriteController.token != null) {
-                            detailsController.isFavoriteLocalUpdate();
-                          } else {
-                            Get.snackbar(
-                              AppTags.login.tr,
-                              AppTags.pleaseLoginFirst.tr,
-                              snackPosition: SnackPosition.BOTTOM,
-                              duration: const Duration(seconds: 3),
-                              colorText: Colors.white,
-                              backgroundColor: Colors.black,
-                              forwardAnimationCurve: Curves.decelerate,
-                              shouldIconPulse: false,
-                            );
-                          }
-                        },
-                        child: Container(
-                          height: 30.h,
-                          width: 30.w,
-                          margin: EdgeInsets.all(7.r),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white60,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppThemeData.boxShadowColor
-                                    .withOpacity(0.13),
-                                spreadRadius: 1,
-                                blurRadius: 10.r,
-                                offset: const Offset(
-                                    0, 2), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(7.r),
-                            child: detailsController.isFavoriteLocal.value
-                                ? SvgPicture.asset(
-                                    Images.heartOn,
-                                    color: Colors.grey,
-                                  )
-                                : SvgPicture.asset(
-                                    Images.heartOff,
-                                    color: Colors.grey,
-                                  ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
+              // Positioned(
+              //   top: 0,
+              //   left: 2,
+              //   child: Padding(
+              //     padding: EdgeInsets.all(5.0.r),
+              //     child: Obx(
+              //       () => Material(
+              //         shape: const CircleBorder(),
+              //         child: InkWell(
+              //           customBorder: const CircleBorder(),
+              //           onTap: () async {
+              //             // if (_favouriteController.token != null) {
+              //             //   detailsController.isFavoriteLocalUpdate();
+              //             // } else {
+              //             //   Get.snackbar(
+              //             //     AppTags.login.tr,
+              //             //     AppTags.pleaseLoginFirst.tr,
+              //             //     snackPosition: SnackPosition.BOTTOM,
+              //             //     duration: const Duration(seconds: 3),
+              //             //     colorText: Colors.white,
+              //             //     backgroundColor: Colors.black,
+              //             //     forwardAnimationCurve: Curves.decelerate,
+              //             //     shouldIconPulse: false,
+              //             //   );
+              //             // }
+              //           },
+              //           child: Container(
+              //             height: 30.h,
+              //             width: 30.w,
+              //             margin: EdgeInsets.all(7.r),
+              //             decoration: BoxDecoration(
+              //               shape: BoxShape.circle,
+              //               color: Colors.white60,
+              //               boxShadow: [
+              //                 BoxShadow(
+              //                   color: AppThemeData.boxShadowColor
+              //                       .withOpacity(0.13),
+              //                   spreadRadius: 1,
+              //                   blurRadius: 10.r,
+              //                   offset: const Offset(
+              //                       0, 2), // changes position of shadow
+              //                 ),
+              //               ],
+              //             ),
+              //             child: Padding(
+              //                 padding: EdgeInsets.all(7.r),
+              //                 child:
+              //                     //  detailsController.isFavoriteLocal.value
+              //                     // ?
+              //                     SvgPicture.asset(
+              //                   Images.heartOn,
+              //                   color: Colors.grey,
+              //                 )
+              //                 // : SvgPicture.asset(
+              //                 //     Images.heartOff,
+              //                 //     color: Colors.grey,
+              //                 //   ),
+              //                 ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

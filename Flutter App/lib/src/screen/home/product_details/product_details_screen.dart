@@ -46,6 +46,7 @@ class DetailsPage extends StatelessWidget {
   final _colorSelectionController = Get.put(ColorSelectionController());
 
   final productId = Get.parameters['productId'];
+  dynamic sizeValue;
 
   @override
   Widget build(BuildContext context) {
@@ -334,6 +335,10 @@ class DetailsPage extends StatelessWidget {
                             controller: detailsController.pageController,
                             onPageChanged: (index) {
                               detailsController.itemCounterUpdate(index);
+                              detailsController.indeximage = index;
+                              print("899999999999999999999999999999999");
+                              print(detailsController.indeximage);
+                              print("899999999999999999999999999999999");
                             },
                             itemBuilder: (context, index) {
                               return Padding(
@@ -762,6 +767,61 @@ class DetailsPage extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            // dropdown for size
+
+                            detailsController.sizeProd.isNotEmpty
+                                ? DropdownButton(
+                                    iconEnabledColor: Colors.grey[500],
+                                    iconDisabledColor: Colors.grey[500],
+                                    hint: Text(
+                                      detailsController.sizeProd[0].toString(),
+                                      style: TextStyle(color: Colors.grey[500]),
+                                    ),
+                                    style: TextStyle(color: Colors.grey[500]),
+                                    value: sizeValue,
+                                    onChanged: (newValue) {
+                                      sizeValue = newValue!;
+                                      _cartController.sizeProd =
+                                          newValue.toString();
+                                      detailsController.update();
+                                      detailsController.calculateTotalPrice();
+                                    },
+                                    items:
+                                        detailsController.sizeProd.map((value) {
+                                      // controller.iii =
+                                      //     controller.dataCity.indexOf(value);
+                                      int ii = detailsController.sizeProd
+                                          .indexOf(value);
+                                      detailsController.priceProduct =
+                                          double.parse(detailsController
+                                              .priceProd[detailsController.i]!);
+
+                                      detailsController.updateUi();
+                                      // controller.showMap = true;
+
+                                      return DropdownMenuItem(
+                                        onTap: () {
+                                          detailsController.i =
+                                              detailsController.sizeProd
+                                                  .indexOf(value);
+                                          detailsController.priceProduct =
+                                              double.parse(
+                                                  detailsController.priceProd[
+                                                      detailsController.i]!);
+
+                                          detailsController.updateUi();
+                                        },
+                                        value: value,
+                                        child: Text(
+                                          detailsController.sizeProd[ii]
+                                              .toString(),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    isExpanded: true,
+                                  )
+                                : const SizedBox(),
+
                             SizedBox(height: 13.h),
 
                             detailsModel.data!.isClassified!
@@ -839,7 +899,7 @@ class DetailsPage extends StatelessWidget {
                                           : Row(
                                               children: [
                                                 Text(
-                                                  "${currencyConverterController.convertCurrency(detailsModel.data!.discountPrice)}",
+                                                  "${currencyConverterController.convertCurrency(detailsController.priceProd.isEmpty ? detailsModel.data!.discountPrice : detailsController.priceProd[detailsController.i])}",
                                                   style: isMobile(context)
                                                       ? AppThemeData
                                                           .seccessfulPayTextStyle_18
@@ -855,8 +915,7 @@ class DetailsPage extends StatelessWidget {
                                                     fontSize: isMobile(context)
                                                         ? 14.sp
                                                         : 11.sp,
-                                                    fontFamily:
-                                                        "Poppins Medium",
+                                                    fontFamily: "Poppins",
                                                   ),
                                                 ),
                                               ],
@@ -919,7 +978,7 @@ class DetailsPage extends StatelessWidget {
                                                                 .labelTextStyle_12tab
                                                                 .copyWith(
                                                                 fontFamily:
-                                                                    "Poppins Medium",
+                                                                    "Poppins",
                                                                 fontSize: 13.sp,
                                                               ),
                                                         key: ValueKey(
@@ -1207,7 +1266,8 @@ class DetailsPage extends StatelessWidget {
                                                           itemCount: detailsModel
                                                               .data!
                                                               .attributes![i]
-                                                              .attributeValue!
+                                                              .attribute!
+                                                              .currentLanguage!
                                                               .length,
                                                           itemBuilder:
                                                               (context, index) {
@@ -1229,17 +1289,13 @@ class DetailsPage extends StatelessWidget {
                                                                           .data!
                                                                           .attributes![
                                                                               i]
-                                                                          .attributeValue![
-                                                                              index]
-                                                                          .value!,
+                                                                          .price![index],
                                                                       index: i);
                                                                   _colorSelectionController.insertAttrIdToList(
                                                                       id: detailsModel
                                                                           .data!
                                                                           .attributes![
                                                                               i]
-                                                                          .attributeValue![
-                                                                              index]
                                                                           .id!
                                                                           .toString(),
                                                                       index: i);
@@ -1279,8 +1335,7 @@ class DetailsPage extends StatelessWidget {
                                                                         detailsModel
                                                                             .data!
                                                                             .attributes![i]
-                                                                            .attributeValue![index]
-                                                                            .value!,
+                                                                            .price![index],
                                                                         style: _colorSelectionController.selectedArray[i] ==
                                                                                 index
                                                                             ? isMobile(context)
@@ -2383,16 +2438,23 @@ class DetailsPage extends StatelessWidget {
                                               .selectedAttrName.value
                                               .contains("**")) {
                                         _cartController.addToCart(
-                                          productId: productId.toString(),
-                                          quantity: detailsController
-                                              .productQuantity
-                                              .toString(),
-                                          variantsIds: _colorSelectionController
-                                              .selectedAttrId.value,
-                                          variantsNames:
-                                              _colorSelectionController
-                                                  .selectedAttrName.value,
-                                        );
+                                            productId: productId.toString(),
+                                            quantity: detailsController
+                                                .productQuantity
+                                                .toString(),
+                                            variantsIds:
+                                                _colorSelectionController
+                                                    .selectedAttrId.value,
+                                            variantsNames:
+                                                _colorSelectionController
+                                                    .selectedAttrName.value,
+                                            att_value: _cartController.sizeProd,
+                                            img_url: detailsController
+                                                    .productDetail
+                                                    .value
+                                                    .data!
+                                                    .images![
+                                                detailsController.indeximage]);
                                       } else {
                                         showCustomSnackBar(
                                             AppTags.selectAttr.tr,
@@ -2404,15 +2466,24 @@ class DetailsPage extends StatelessWidget {
                                     }
                                   } else {
                                     _cartController.addToCart(
-                                      productId: productId.toString(),
-                                      quantity: detailsController
-                                          .productQuantity
-                                          .toString(),
-                                      variantsIds: _colorSelectionController
-                                          .selectedAttrId.value,
-                                      variantsNames: _colorSelectionController
-                                          .selectedAttrName.value,
-                                    );
+                                        productId: productId.toString(),
+                                        quantity: detailsController
+                                            .productQuantity
+                                            .toString(),
+                                        variantsIds: _colorSelectionController
+                                            .selectedAttrId.value,
+                                        variantsNames: _colorSelectionController
+                                            .selectedAttrName.value,
+                                        att_value: _cartController.sizeProd,
+                                        img_url: detailsController.productDetail
+                                                .value.data!.images![
+                                            detailsController.indeximage]);
+                                    print("dgu777777777777777777777777777777");
+                                    print(_cartController.sizeProd);
+                                    print(detailsController
+                                        .productDetail.value.data!.images![0]);
+
+                                    print("dgu777777777777777777777777777777");
                                   }
                                 },
                                 child: Container(
@@ -2550,7 +2621,7 @@ class DetailsPage extends StatelessWidget {
                 style: isMobile(context)
                     ? const TextStyle()
                     : AppThemeData.labelTextStyle_12tab.copyWith(
-                        fontFamily: "Poppins Medium",
+                        fontFamily: "Poppins",
                         fontSize: 10.sp,
                       ),
               ),

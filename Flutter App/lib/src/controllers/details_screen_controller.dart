@@ -29,6 +29,12 @@ class DetailsPageController extends GetxController {
   var isReviewLoading = true.obs;
 
   late Rx<AppLifecycleState> appState;
+  int i = 0;
+  int indeximage = 0;
+  List<String?> sizeProd = [];
+  List<String?> priceProd = [];
+
+  List<ProductDetailsModel> dataProdatrabute = [];
 
   IconData? selectedIcon;
   var productImageNumber = 0.obs;
@@ -38,9 +44,15 @@ class DetailsPageController extends GetxController {
   final _minimumOrderQuantity = 1.obs;
   var productQuantity = 1.obs;
   var totalPrice = 0.0.obs;
+  var priceProduct = 0.0;
+
   String colorId = '';
   String colorValue = '';
   var pageView = 0.obs;
+
+  updateUi() {
+    update();
+  }
 
   updatePageIncrement() {
     int imageLength = productDetail.value.data!.descriptionImages!.length;
@@ -164,6 +176,22 @@ class DetailsPageController extends GetxController {
       productDetail.value = value;
       _minimumOrderQuantity.value = value.data!.minimumOrderQuantity ?? 1;
       productQuantity.value = _minimumOrderQuantity.value;
+      for (var i = 0; i < value.data!.attributes!.length; i++) {
+        sizeProd.add(value.data!.attributes![i].title);
+        print("ffffffffffffffffsssssssssssssssssssssss");
+        print(sizeProd);
+        print("ffffffffffffffffsssssssssssssssssssssss");
+        update();
+      }
+      for (var i = 0; i < value.data!.attributes!.length; i++) {
+        priceProd.add(value.data!.attributes![i].price);
+        print("ffffffffffffffffsssssssssssssssssssssss");
+        print(priceProd);
+        print("ffffffffffffffffsssssssssssssssssssssss");
+        update();
+      }
+      priceProduct = priceProd.isEmpty ? 150.0 : double.parse(priceProd[i]!);
+      update();
       //calculate total price
       calculateTotalPrice();
       setProductVariantData(value);
@@ -175,7 +203,13 @@ class DetailsPageController extends GetxController {
             "productId": proId,
             "price": value.data != null ? value.data!.price : null,
           });
+      print("ffffffffffffffffsssssssssssssssssssssss");
+      print(proId);
+
+      print(value.data!.attributes!.length);
+
       isLoading(false);
+
       update();
       return value;
     });
@@ -218,8 +252,8 @@ class DetailsPageController extends GetxController {
     productImageNumber = 0.obs;
     ratingController = TextEditingController(text: '3.0');
     rating = initialRating;
-    getProductDetails(
-        int.parse(productId != null ? productId.toString() : "0"));
+
+    getProductDetails(int.parse(productId.toString()));
   }
 
   updateColorId(String value) {
@@ -233,8 +267,11 @@ class DetailsPageController extends GetxController {
   }
 
   void calculateTotalPrice() {
-    double price =
-        productQuantity.value * double.parse(productDetail.value.data!.price);
+    double price = priceProd.isEmpty
+        ? productQuantity.value *
+            double.parse(productDetail.value.data!.discountPrice)
+        : productQuantity.value * priceProduct;
+    update();
     if (productDetail.value.data != null) {
       if (productDetail.value.data!.isWholesale &&
           productDetail.value.data!.wholesalePrices != null) {

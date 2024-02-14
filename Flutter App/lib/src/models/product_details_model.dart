@@ -299,58 +299,131 @@ class ColorsData {
 
 class Attributes {
   int? id;
+  int? productId;
+  int? attributeId;
+  int? attributeValueId;
+  String? price;
   String? title;
-  List<AttributeValue>? attributeValue;
+  String? createdAt;
+  String? updatedAt;
+  Attribute? attribute;
 
-  Attributes({this.id, this.title, this.attributeValue});
+  Attributes(
+      {this.id,
+      this.productId,
+      this.attributeId,
+      this.attributeValueId,
+      this.price,
+      this.title,
+      this.createdAt,
+      this.updatedAt,
+      this.attribute});
 
   Attributes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    productId = json['product_id'];
+    attributeId = json['attribute_id'];
+    attributeValueId = json['attribute_value_id'];
+    price = json['price'];
     title = json['title'];
-    if (json['attribute_value'] != null) {
-      attributeValue = <AttributeValue>[];
-      json['attribute_value'].forEach((v) {
-        attributeValue!.add(AttributeValue.fromJson(v));
-      });
-    }
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    attribute = json['attribute'] != null
+        ? new Attribute.fromJson(json['attribute'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    if (attributeValue != null) {
-      data['attribute_value'] = attributeValue!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['product_id'] = this.productId;
+    data['attribute_id'] = this.attributeId;
+    data['attribute_value_id'] = this.attributeValueId;
+    data['price'] = this.price;
+    data['title'] = this.title;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.attribute != null) {
+      data['attribute'] = this.attribute!.toJson();
     }
     return data;
   }
 }
 
-class AttributeValue {
+class Attribute {
+  int? id;
+  String? createdAt;
+  String? updatedAt;
+  String? title;
+  List<CurrentLanguage>? currentLanguage;
+
+  Attribute(
+      {this.id,
+      this.createdAt,
+      this.updatedAt,
+      this.title,
+      this.currentLanguage});
+
+  Attribute.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    title = json['title'];
+    if (json['current_language'] != null) {
+      currentLanguage = <CurrentLanguage>[];
+      json['current_language'].forEach((v) {
+        currentLanguage!.add(new CurrentLanguage.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['title'] = this.title;
+    if (this.currentLanguage != null) {
+      data['current_language'] =
+          this.currentLanguage!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CurrentLanguage {
   int? id;
   int? attributeId;
-  String? value;
+  String? lang;
+  String? title;
   String? createdAt;
   String? updatedAt;
 
-  AttributeValue(
-      {this.id, this.attributeId, this.value, this.createdAt, this.updatedAt});
+  CurrentLanguage(
+      {this.id,
+      this.attributeId,
+      this.lang,
+      this.title,
+      this.createdAt,
+      this.updatedAt});
 
-  AttributeValue.fromJson(Map<String, dynamic> json) {
+  CurrentLanguage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     attributeId = json['attribute_id'];
-    value = json['value'];
+    lang = json['lang'];
+    title = json['title'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['attribute_id'] = attributeId;
-    data['value'] = value;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['attribute_id'] = this.attributeId;
+    data['lang'] = this.lang;
+    data['title'] = this.title;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

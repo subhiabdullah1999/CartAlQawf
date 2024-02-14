@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:yoori_ecommerce/src/models/add_to_cart_list_model.dart';
 import 'package:yoori_ecommerce/src/models/coupon_applied_list.dart';
@@ -25,6 +24,8 @@ class CartContentController extends GetxController {
 
   var couponCode = ''.obs;
 
+  String? sizeProd;
+
   @override
   void onInit() {
     getCartList();
@@ -32,11 +33,11 @@ class CartContentController extends GetxController {
     super.onInit();
   }
 
-
-  int incrementProduct(int productId){
-   int index =  _addToCartListModel.value.data!.carts!.indexWhere((element) =>element.productId==productId);
-   //printLog("index == $index");
-   return index;
+  int incrementProduct(int productId) {
+    int index = _addToCartListModel.value.data!.carts!
+        .indexWhere((element) => element.productId == productId);
+    //printLog("index == $index");
+    return index;
   }
 
   Future getCartList({bool isShowLoading = true}) async {
@@ -48,11 +49,14 @@ class CartContentController extends GetxController {
     update();
   }
 
-  Future addToCart(
-      {required String productId,
-      required String quantity,
-        String? variantsIds,
-       String? variantsNames}) async {
+  Future addToCart({
+    required String productId,
+    required String quantity,
+    String? variantsIds,
+    String? variantsNames,
+    String? att_value,
+    String? img_url,
+  }) async {
     AnalyticsHelper().setAnalyticsData(
         screenName: "ProductDetailsScreen",
         eventTitle: "AddToCart",
@@ -60,17 +64,20 @@ class CartContentController extends GetxController {
           "productId": productId,
           "quantity": quantity,
           "variantsNames": variantsNames,
+          "att_value": att_value.toString(),
+          "img_url": img_url.toString()
         });
     String? trxId = LocalDataHelper().getCartTrxId();
     printLog(trxId);
     if (trxId == null) {
       Repository()
           .addToCartWithOutTrxId(
-            productId: productId,
-            quantity: quantity,
-            variantsIds: variantsIds,
-            variantsNames: variantsNames,
-          )
+              productId: productId,
+              quantity: quantity,
+              variantsIds: variantsIds,
+              variantsNames: variantsNames,
+              att_value: att_value,
+              img_url: img_url)
           .then((value) => getCartList(isShowLoading: false));
     } else {
       Repository()
@@ -79,7 +86,9 @@ class CartContentController extends GetxController {
               quantity: quantity,
               variantsIds: variantsIds,
               variantsNames: variantsNames,
-              trxId: trxId)
+              trxId: trxId,
+              att_value: att_value,
+              img_url: img_url)
           .then((value) => getCartList(isShowLoading: false));
     }
   }
@@ -87,7 +96,7 @@ class CartContentController extends GetxController {
   Future deleteAProductFromCart({required String productId}) async {
     await Repository().deleteCartProduct(productId: productId).then((value) {
       getCartList(isShowLoading: false);
-       AnalyticsHelper().setAnalyticsData(
+      AnalyticsHelper().setAnalyticsData(
           screenName: "ProductDetailsScreen",
           eventTitle: "DeleteFromCart",
           additionalData: {

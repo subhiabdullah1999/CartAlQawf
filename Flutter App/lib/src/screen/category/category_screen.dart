@@ -404,8 +404,10 @@ class CategoryScreen extends StatelessWidget {
                                                                 width: 190,
                                                                 child: ListView
                                                                     .builder(
-                                                                        itemCount: controller
-                                                                            .subCat
+                                                                        itemCount: _catController
+                                                                            .featuredCategory
+                                                                            .value
+                                                                            .featuredSubCategories!
                                                                             .length,
                                                                         itemBuilder:
                                                                             (context,
@@ -432,7 +434,7 @@ class CategoryScreen extends StatelessWidget {
                                                                                 ),
                                                                                 child: Center(
                                                                                   child: Text(
-                                                                                    controller.subCat[index],
+                                                                                    _catController.featuredCategory.value.featuredSubCategories![index].title.toString(),
                                                                                     style: TextStyle(fontSize: 18),
                                                                                   ),
                                                                                   // trailing: Icon(
@@ -673,309 +675,313 @@ class CategoryScreen extends StatelessWidget {
                                                                 // ),
                                                                 ),
                                                             Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .symmetric(
-                                                                  vertical: 10,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                vertical: 10,
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  10,
                                                                 ),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                    10,
-                                                                  ),
-                                                                  color: AppThemeData
-                                                                      .homeMultipleColor[index %
-                                                                          AppThemeData
-                                                                              .homeMultipleColor
-                                                                              .length]
-                                                                      .withOpacity(
-                                                                          0.1),
-                                                                ),
-                                                                height: 300,
-                                                                width: 200,
-                                                                child: GridView
-                                                                    .builder(
-                                                                        itemCount: _catController
-                                                                            .categoryList[_catController
-                                                                                .index.value]
-                                                                            .subCategories!
-                                                                            .length,
-                                                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                                                            crossAxisCount:
-                                                                                2,
-                                                                            childAspectRatio:
-                                                                                1.0),
-                                                                        itemBuilder:
-                                                                            (_, subCtIndex) {
-                                                                          return Column(
-                                                                            children: [
-                                                                              InkWell(
-                                                                                onTap: () {
-                                                                                  Navigator.of(context).push(
-                                                                                    MaterialPageRoute(
-                                                                                      builder: (_) => ProductByCategory(
-                                                                                        id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].id,
-                                                                                        title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title,
-                                                                                      ),
-                                                                                    ),
-                                                                                  );
-                                                                                },
-                                                                                child: Container(
-                                                                                  height: 70,
-                                                                                  width: 75,
-                                                                                  decoration: BoxDecoration(
-                                                                                    borderRadius: BorderRadius.circular(2),
-                                                                                    border: Border.all(color: Colors.blueGrey),
-                                                                                    // boxShadow: const [
-                                                                                    //   BoxShadow(color: Colors.grey, offset: Offset(0, -1))
-                                                                                    // ],
-                                                                                    image: DecorationImage(
-                                                                                      image: NetworkImage(
-                                                                                        _catController.categoryList[_catController.index.value].subCategories![subCtIndex].image!,
-                                                                                      ),
-                                                                                      fit: BoxFit.fill,
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Text(
-                                                                                _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title!,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                maxLines: 1,
-                                                                              )
-                                                                            ],
-                                                                          );
-                                                                        })
-                                                                // Column(
-                                                                // children: [
-                                                                // Container(
-                                                                //   height: isMobile(
-                                                                //           context)
-                                                                //       ? 100.h
-                                                                //       : 130.h,
-                                                                //   decoration:
-                                                                //       BoxDecoration(
-                                                                //     color: const Color(
-                                                                //         0xffDBE8C2),
-                                                                //     borderRadius: const BorderRadius
-                                                                //             .all(
-                                                                //         Radius.circular(
-                                                                //             10)),
-                                                                // image:
-                                                                //     DecorationImage(
-                                                                //   image:
-                                                                //       NetworkImage(
-                                                                //     _catController
-                                                                //         .categoryList[_catController.index.value]
-                                                                //         .banner!,
-                                                                //   ),
-                                                                //   fit: BoxFit
-                                                                //       .fill,
-                                                                // ),
-                                                                //     boxShadow: [
-                                                                //       BoxShadow(
-                                                                //         spreadRadius:
-                                                                //             30.r,
-                                                                //         blurRadius:
-                                                                //             1,
-                                                                //         color:
-                                                                //             const Color(0xff404040).withOpacity(0.01),
-                                                                //         offset: const Offset(
-                                                                //             0,
-                                                                //             15),
-                                                                //       )
-                                                                //     ],
-                                                                //   ),
-                                                                // ),
-                                                                // SizedBox(
-                                                                //   height:
-                                                                //       20.h,
-                                                                // ),
-                                                                // ListView
-                                                                //     .builder(
-                                                                //   shrinkWrap:
-                                                                //       true,
-                                                                //   itemCount: _catController
-                                                                //       .categoryList[_catController
-                                                                //           .index
-                                                                //           .value]
-                                                                //       .subCategories!
-                                                                //       .length,
-                                                                //   itemBuilder:
-                                                                //       (_, subCtIndex) {
-                                                                //     return _catController
-                                                                //             .categoryList[_catController.index.value]
-                                                                //             .subCategories![subCtIndex]
-                                                                //             .childCategories!
-                                                                //             .isNotEmpty
-                                                                //         ? InkWell(
-                                                                //             onTap: () {
-                                                                //               Navigator.of(context).push(
-                                                                //                 MaterialPageRoute(
-                                                                //                   builder: (_) => ProductByCategory(
-                                                                //                     id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].id,
-                                                                //                     title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title,
-                                                                //                   ),
-                                                                //                 ),
-                                                                //               );
-                                                                //             },
-                                                                //             child: ListView(
-                                                                //               shrinkWrap: true,
-                                                                //               primary: false,
-                                                                //               children: [
-                                                                //                 SizedBox(height: 15.h),
-                                                                //                 Text(
-                                                                //                   _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title.toString(),
-                                                                //                   style: isMobile(context) ? AppThemeData.priceTextStyle_14 : AppThemeData.titleTextStyle_11Tab,
-                                                                //                 ),
-                                                                //                 SizedBox(height: 10.h),
-                                                                //                 GridView.builder(
-                                                                //                   physics: const NeverScrollableScrollPhysics(),
-                                                                //                   scrollDirection: Axis.vertical,
-                                                                //                   shrinkWrap: true,
-                                                                //                   itemCount: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories!.length,
-                                                                //                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                                //                     crossAxisCount: orientation == Orientation.portrait ? 3 : 3,
-                                                                //                     crossAxisSpacing: 15,
-                                                                //                     mainAxisSpacing: 16,
-                                                                //                     childAspectRatio: 0.73,
-                                                                //                   ),
-                                                                //                   itemBuilder: (context, childIndex) {
-                                                                //                     return InkWell(
-                                                                //                       onTap: () {
-                                                                //                         Navigator.of(context).push(
-                                                                //                           MaterialPageRoute(
-                                                                //                             builder: (_) => ProductByCategory(
-                                                                //                               id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].id,
-                                                                //                               title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].title,
-                                                                //                             ),
-                                                                //                           ),
-                                                                //                         );
-                                                                //                       },
-                                                                //                       child: Container(
-                                                                //                         alignment: Alignment.center,
-                                                                //                         decoration: BoxDecoration(
-                                                                //                           color: AppThemeData.buttonTextColor,
-                                                                //                           borderRadius: BorderRadius.all(
-                                                                //                             Radius.circular(10.r),
-                                                                //                           ),
-                                                                //                           border: Border.all(
-                                                                //                             color: const Color(0xFFEEEEEE),
-                                                                //                             width: 1,
-                                                                //                           ),
-                                                                //                           boxShadow: [
-                                                                //                             BoxShadow(
-                                                                //                               spreadRadius: 30.r,
-                                                                //                               blurRadius: 1,
-                                                                //                               color: const Color(0xff404040).withOpacity(0.01),
-                                                                //                               offset: const Offset(0, 15),
-                                                                //                             ),
-                                                                //                           ],
-                                                                //                         ),
-                                                                //                         child: Padding(
-                                                                //                           padding: EdgeInsets.symmetric(
-                                                                //                             horizontal: 8.w,
-                                                                //                             vertical: 9.h,
-                                                                //                           ),
-                                                                //                           child: Column(
-                                                                //                             children: [
-                                                                //                               Image.network(
-                                                                //                                 _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].image.toString(),
-                                                                //                               ),
-                                                                //                               SizedBox(
-                                                                //                                 height: 6.h,
-                                                                //                               ),
-                                                                //                               Center(
-                                                                //                                 child: Text(
-                                                                //                                   _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].title.toString(),
-                                                                //                                   maxLines: 1,
-                                                                //                                   overflow: TextOverflow.ellipsis,
-                                                                //                                   style: isMobile(context) ? AppThemeData.categoryTitleTextStyle_12 : AppThemeData.categoryTitleTextStyle_9Tab,
-                                                                //                                 ),
-                                                                //                               ),
-                                                                //                             ],
-                                                                //                           ),
-                                                                //                         ),
-                                                                //                       ),
-                                                                //                     );
-                                                                //                   },
-                                                                //                 )
-                                                                //               ],
-                                                                //             ),
-                                                                //           )
-                                                                //         : InkWell(
-                                                                //             onTap: () {
-                                                                //               Navigator.of(context).push(
-                                                                //                 MaterialPageRoute(
-                                                                //                   builder: (_) => ProductByCategory(
-                                                                //                     id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].id!,
-                                                                //                     title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title,
-                                                                //                   ),
-                                                                //                 ),
-                                                                //               );
-                                                                //             },
-                                                                //             child: Padding(
-                                                                //               padding: EdgeInsets.symmetric(
-                                                                //                 vertical: 10.h,
-                                                                //               ),
-                                                                //               child: Container(
-                                                                //                 height: 80.h,
-                                                                //                 decoration: BoxDecoration(
-                                                                //                   color: AppThemeData.buttonTextColor,
-                                                                //                   borderRadius: BorderRadius.all(
-                                                                //                     Radius.circular(10.r),
-                                                                //                   ),
-                                                                //                   border: Border.all(
-                                                                //                     color: const Color(0xFFEEEEEE),
-                                                                //                     width: 1.w,
-                                                                //                   ),
-                                                                //                 ),
-                                                                //                 child: Row(
-                                                                //                   children: [
-                                                                //                     Column(
-                                                                //                       children: [
-                                                                //                         Padding(
-                                                                //                           padding: EdgeInsets.all(4.r),
-                                                                //                           child: SizedBox(
-                                                                //                             height: 70,
-                                                                //                             width: 70,
-                                                                //                             child: Image.network(
-                                                                //                               _catController.categoryList[_catController.index.value].subCategories![subCtIndex].banner!,
-                                                                //                             ),
-                                                                //                           ),
-                                                                //                         )
-                                                                //                       ],
-                                                                //                     ),
-                                                                //                     Column(
-                                                                //                       mainAxisAlignment: MainAxisAlignment.center,
-                                                                //                       crossAxisAlignment: CrossAxisAlignment.start,
-                                                                //                       children: [
-                                                                //                         Text(
-                                                                //                           _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title.toString(),
-                                                                //                           style: TextStyle(fontSize: isMobile(context) ? 12.sp : 10.sp, fontWeight: FontWeight.w600, fontFamily: "Poppins_Medium"),
-                                                                //                         ),
-                                                                //                         Text(
-                                                                //                           "${AppTags.totalProduct.tr}: ${_catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories!.length}",
-                                                                //                           style: TextStyle(
-                                                                //                             fontSize: isMobile(context) ? 12.sp : 10.sp,
-                                                                //                             fontFamily: "Poppins",
-                                                                //                             color: const Color(0xFF666666),
-                                                                //                           ),
-                                                                //                         ),
-                                                                //                       ],
-                                                                //                     ),
-                                                                //                   ],
-                                                                //                 ),
-                                                                //               ),
-                                                                //             ),
-                                                                //           );
-                                                                //   },
-                                                                // )
-                                                                //   ],
-                                                                // ),
-                                                                ),
+                                                                color: AppThemeData
+                                                                    .homeMultipleColor[index %
+                                                                        AppThemeData
+                                                                            .homeMultipleColor
+                                                                            .length]
+                                                                    .withOpacity(
+                                                                        0.1),
+                                                              ),
+                                                              height: 300,
+                                                              width: 200,
+                                                              // child: GridView
+                                                              //     .builder(
+                                                              //         itemCount:  _catController
+                                                              //               .featuredCategory
+                                                              //               .value
+                                                              //               .featuredSubCategories![index]
+
+                                                              //             .length,
+                                                              //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                              //             crossAxisCount:
+                                                              //                 2,
+                                                              //             childAspectRatio:
+                                                              //                 1.0),
+                                                              //         itemBuilder:
+                                                              //             (_, subCtIndex) {
+                                                              //           return Column(
+                                                              //             children: [
+                                                              //               InkWell(
+                                                              //                 onTap: () {
+                                                              //                   Navigator.of(context).push(
+                                                              //                     MaterialPageRoute(
+                                                              //                       builder: (_) => ProductByCategory(
+                                                              //                         id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].id,
+                                                              //                         title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title,
+                                                              //                       ),
+                                                              //                     ),
+                                                              //                   );
+                                                              //                 },
+                                                              //                 child: Container(
+                                                              //                   height: 70,
+                                                              //                   width: 75,
+                                                              //                   decoration: BoxDecoration(
+                                                              //                     borderRadius: BorderRadius.circular(2),
+                                                              //                     border: Border.all(color: Colors.blueGrey),
+                                                              //                     // boxShadow: const [
+                                                              //                     //   BoxShadow(color: Colors.grey, offset: Offset(0, -1))
+                                                              //                     // ],
+                                                              //                     image: DecorationImage(
+                                                              //                       image: NetworkImage(
+                                                              //                         _catController.categoryList[_catController.index.value].subCategories![subCtIndex].image!,
+                                                              //                       ),
+                                                              //                       fit: BoxFit.fill,
+                                                              //                     ),
+                                                              //                   ),
+                                                              //                 ),
+                                                              //               ),
+                                                              //               Text(
+                                                              //                 _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title!,
+                                                              //                 overflow: TextOverflow.ellipsis,
+                                                              //                 maxLines: 1,
+                                                              //               )
+                                                              //             ],
+                                                              //           );
+                                                              //         })
+
+                                                              // 77777777777777777777777777777778888888888888888888888888888
+
+                                                              // Column(
+                                                              // children: [
+                                                              // Container(
+                                                              //   height: isMobile(
+                                                              //           context)
+                                                              //       ? 100.h
+                                                              //       : 130.h,
+                                                              //   decoration:
+                                                              //       BoxDecoration(
+                                                              //     color: const Color(
+                                                              //         0xffDBE8C2),
+                                                              //     borderRadius: const BorderRadius
+                                                              //             .all(
+                                                              //         Radius.circular(
+                                                              //             10)),
+                                                              // image:
+                                                              //     DecorationImage(
+                                                              //   image:
+                                                              //       NetworkImage(
+                                                              //     _catController
+                                                              //         .categoryList[_catController.index.value]
+                                                              //         .banner!,
+                                                              //   ),
+                                                              //   fit: BoxFit
+                                                              //       .fill,
+                                                              // ),
+                                                              //     boxShadow: [
+                                                              //       BoxShadow(
+                                                              //         spreadRadius:
+                                                              //             30.r,
+                                                              //         blurRadius:
+                                                              //             1,
+                                                              //         color:
+                                                              //             const Color(0xff404040).withOpacity(0.01),
+                                                              //         offset: const Offset(
+                                                              //             0,
+                                                              //             15),
+                                                              //       )
+                                                              //     ],
+                                                              //   ),
+                                                              // ),
+                                                              // SizedBox(
+                                                              //   height:
+                                                              //       20.h,
+                                                              // ),
+                                                              // ListView
+                                                              //     .builder(
+                                                              //   shrinkWrap:
+                                                              //       true,
+                                                              //   itemCount: _catController
+                                                              //       .categoryList[_catController
+                                                              //           .index
+                                                              //           .value]
+                                                              //       .subCategories!
+                                                              //       .length,
+                                                              //   itemBuilder:
+                                                              //       (_, subCtIndex) {
+                                                              //     return _catController
+                                                              //             .categoryList[_catController.index.value]
+                                                              //             .subCategories![subCtIndex]
+                                                              //             .childCategories!
+                                                              //             .isNotEmpty
+                                                              //         ? InkWell(
+                                                              //             onTap: () {
+                                                              //               Navigator.of(context).push(
+                                                              //                 MaterialPageRoute(
+                                                              //                   builder: (_) => ProductByCategory(
+                                                              //                     id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].id,
+                                                              //                     title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title,
+                                                              //                   ),
+                                                              //                 ),
+                                                              //               );
+                                                              //             },
+                                                              //             child: ListView(
+                                                              //               shrinkWrap: true,
+                                                              //               primary: false,
+                                                              //               children: [
+                                                              //                 SizedBox(height: 15.h),
+                                                              //                 Text(
+                                                              //                   _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title.toString(),
+                                                              //                   style: isMobile(context) ? AppThemeData.priceTextStyle_14 : AppThemeData.titleTextStyle_11Tab,
+                                                              //                 ),
+                                                              //                 SizedBox(height: 10.h),
+                                                              //                 GridView.builder(
+                                                              //                   physics: const NeverScrollableScrollPhysics(),
+                                                              //                   scrollDirection: Axis.vertical,
+                                                              //                   shrinkWrap: true,
+                                                              //                   itemCount: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories!.length,
+                                                              //                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                              //                     crossAxisCount: orientation == Orientation.portrait ? 3 : 3,
+                                                              //                     crossAxisSpacing: 15,
+                                                              //                     mainAxisSpacing: 16,
+                                                              //                     childAspectRatio: 0.73,
+                                                              //                   ),
+                                                              //                   itemBuilder: (context, childIndex) {
+                                                              //                     return InkWell(
+                                                              //                       onTap: () {
+                                                              //                         Navigator.of(context).push(
+                                                              //                           MaterialPageRoute(
+                                                              //                             builder: (_) => ProductByCategory(
+                                                              //                               id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].id,
+                                                              //                               title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].title,
+                                                              //                             ),
+                                                              //                           ),
+                                                              //                         );
+                                                              //                       },
+                                                              //                       child: Container(
+                                                              //                         alignment: Alignment.center,
+                                                              //                         decoration: BoxDecoration(
+                                                              //                           color: AppThemeData.buttonTextColor,
+                                                              //                           borderRadius: BorderRadius.all(
+                                                              //                             Radius.circular(10.r),
+                                                              //                           ),
+                                                              //                           border: Border.all(
+                                                              //                             color: const Color(0xFFEEEEEE),
+                                                              //                             width: 1,
+                                                              //                           ),
+                                                              //                           boxShadow: [
+                                                              //                             BoxShadow(
+                                                              //                               spreadRadius: 30.r,
+                                                              //                               blurRadius: 1,
+                                                              //                               color: const Color(0xff404040).withOpacity(0.01),
+                                                              //                               offset: const Offset(0, 15),
+                                                              //                             ),
+                                                              //                           ],
+                                                              //                         ),
+                                                              //                         child: Padding(
+                                                              //                           padding: EdgeInsets.symmetric(
+                                                              //                             horizontal: 8.w,
+                                                              //                             vertical: 9.h,
+                                                              //                           ),
+                                                              //                           child: Column(
+                                                              //                             children: [
+                                                              //                               Image.network(
+                                                              //                                 _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].image.toString(),
+                                                              //                               ),
+                                                              //                               SizedBox(
+                                                              //                                 height: 6.h,
+                                                              //                               ),
+                                                              //                               Center(
+                                                              //                                 child: Text(
+                                                              //                                   _catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories![childIndex].title.toString(),
+                                                              //                                   maxLines: 1,
+                                                              //                                   overflow: TextOverflow.ellipsis,
+                                                              //                                   style: isMobile(context) ? AppThemeData.categoryTitleTextStyle_12 : AppThemeData.categoryTitleTextStyle_9Tab,
+                                                              //                                 ),
+                                                              //                               ),
+                                                              //                             ],
+                                                              //                           ),
+                                                              //                         ),
+                                                              //                       ),
+                                                              //                     );
+                                                              //                   },
+                                                              //                 )
+                                                              //               ],
+                                                              //             ),
+                                                              //           )
+                                                              //         : InkWell(
+                                                              //             onTap: () {
+                                                              //               Navigator.of(context).push(
+                                                              //                 MaterialPageRoute(
+                                                              //                   builder: (_) => ProductByCategory(
+                                                              //                     id: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].id!,
+                                                              //                     title: _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title,
+                                                              //                   ),
+                                                              //                 ),
+                                                              //               );
+                                                              //             },
+                                                              //             child: Padding(
+                                                              //               padding: EdgeInsets.symmetric(
+                                                              //                 vertical: 10.h,
+                                                              //               ),
+                                                              //               child: Container(
+                                                              //                 height: 80.h,
+                                                              //                 decoration: BoxDecoration(
+                                                              //                   color: AppThemeData.buttonTextColor,
+                                                              //                   borderRadius: BorderRadius.all(
+                                                              //                     Radius.circular(10.r),
+                                                              //                   ),
+                                                              //                   border: Border.all(
+                                                              //                     color: const Color(0xFFEEEEEE),
+                                                              //                     width: 1.w,
+                                                              //                   ),
+                                                              //                 ),
+                                                              //                 child: Row(
+                                                              //                   children: [
+                                                              //                     Column(
+                                                              //                       children: [
+                                                              //                         Padding(
+                                                              //                           padding: EdgeInsets.all(4.r),
+                                                              //                           child: SizedBox(
+                                                              //                             height: 70,
+                                                              //                             width: 70,
+                                                              //                             child: Image.network(
+                                                              //                               _catController.categoryList[_catController.index.value].subCategories![subCtIndex].banner!,
+                                                              //                             ),
+                                                              //                           ),
+                                                              //                         )
+                                                              //                       ],
+                                                              //                     ),
+                                                              //                     Column(
+                                                              //                       mainAxisAlignment: MainAxisAlignment.center,
+                                                              //                       crossAxisAlignment: CrossAxisAlignment.start,
+                                                              //                       children: [
+                                                              //                         Text(
+                                                              //                           _catController.categoryList[_catController.index.value].subCategories![subCtIndex].title.toString(),
+                                                              //                           style: TextStyle(fontSize: isMobile(context) ? 12.sp : 10.sp, fontWeight: FontWeight.w600, fontFamily: "Poppins_Medium"),
+                                                              //                         ),
+                                                              //                         Text(
+                                                              //                           "${AppTags.totalProduct.tr}: ${_catController.categoryList[_catController.index.value].subCategories![subCtIndex].childCategories!.length}",
+                                                              //                           style: TextStyle(
+                                                              //                             fontSize: isMobile(context) ? 12.sp : 10.sp,
+                                                              //                             fontFamily: "Poppins",
+                                                              //                             color: const Color(0xFF666666),
+                                                              //                           ),
+                                                              //                         ),
+                                                              //                       ],
+                                                              //                     ),
+                                                              //                   ],
+                                                              //                 ),
+                                                              //               ),
+                                                              //             ),
+                                                              //           );
+                                                              //   },
+                                                              // )
+                                                              //   ],
+                                                              // ),
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
@@ -1787,7 +1793,10 @@ class CategoryScreen extends StatelessWidget {
                               height: 300,
                               width: 190,
                               child: ListView.builder(
-                                  itemCount: controller.subCat.length,
+                                  itemCount: _catController
+                                      .categoryList[_catController.index.value]
+                                      .subCategories!
+                                      .length,
                                   itemBuilder: (context, index) {
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
@@ -1816,7 +1825,12 @@ class CategoryScreen extends StatelessWidget {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              controller.subCat[index],
+                                              _catController
+                                                  .categoryList[_catController
+                                                      .index.value]
+                                                  .subCategories![index]
+                                                  .title
+                                                  .toString(),
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             // trailing: Icon(
@@ -2074,7 +2088,9 @@ class CategoryScreen extends StatelessWidget {
                               child: GridView.builder(
                                   itemCount: _catController
                                       .categoryList[_catController.index.value]
-                                      .subCategories!
+                                      .subCategories![
+                                          _catController.index.value]
+                                      .childCategories!
                                       .length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
@@ -2095,12 +2111,16 @@ class CategoryScreen extends StatelessWidget {
                                                               .index.value]
                                                       .subCategories![
                                                           subCtIndex]
+                                                      .childCategories![
+                                                          subCtIndex]
                                                       .id,
                                                   title: _catController
                                                       .categoryList[
                                                           _catController
                                                               .index.value]
                                                       .subCategories![
+                                                          subCtIndex]
+                                                      .childCategories![
                                                           subCtIndex]
                                                       .title,
                                                 ),
@@ -2126,6 +2146,8 @@ class CategoryScreen extends StatelessWidget {
                                                               .index.value]
                                                       .subCategories![
                                                           subCtIndex]
+                                                      .childCategories![
+                                                          subCtIndex]
                                                       .image!,
                                                 ),
                                                 fit: BoxFit.fill,
@@ -2138,6 +2160,7 @@ class CategoryScreen extends StatelessWidget {
                                               .categoryList[
                                                   _catController.index.value]
                                               .subCategories![subCtIndex]
+                                              .childCategories![subCtIndex]
                                               .title!,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
